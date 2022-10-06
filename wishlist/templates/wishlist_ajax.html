@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- <h5>Nama: </h5>
+<p>{{nama}}</p> -->
+
+<nav class="navbar mx-auto rounded-bottom rounded-2" style="background-color:rgb(15, 43, 99)">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-light" href="#">{{nama}}</a>
+      <button class="btn btn-light" type="button"><a class="text-dark" href="{% url 'wishlist:logout' %}">Logout</a>
+        <!-- <span class="navbar-toggler-icon"></span> -->
+      </button>
+    </div>
+</nav>
+
+<br>
+
+<table class="table">
+    <thead class="thead rounded text-light" style="background-color:rgb(15, 43, 99)">
+        <tr>
+            <th scope="col">Nama Barang</th>
+            <th scope="col">Harga Barang</th>
+            <th scope="col">Deskripsi</th>
+        </tr>
+    </thead>
+    <script>
+        $(document).ready(function () {
+    
+            // FETCHING DATA FROM JSON FILE
+            $.getJSON( "{% url 'wishlist:show_json' %}", function (data) {
+                var barang = '';
+    
+                // ITERATING THROUGH OBJECTS
+                $.each(data, function (key, value) {
+    
+                    //CONSTRUCTION OF ROWS HAVING
+                    // DATA FROM JSON OBJECT
+                    barang += '<tr>';
+
+                    barang += '<td>' + value.fields.nama_barang + '</td>';
+    
+                    barang += '<td>' + value.fields.harga_barang + '</td>';
+    
+                    barang += '<td>' + value.fields.deskripsi + '</td>';
+    
+                    barang += '</tr>';
+                });
+                  
+                //INSERTING ROWS INTO TABLE 
+                $('#table').append(barang);
+            });
+        });
+    </script>
+
+</table>
+
+<p class="border border-dark rounded p-1 text-light" style="background-color:rgb(15, 43, 99)">Sesi terakhir login: {{ last_login }}</p>
+
+<!-- <button><a href="{% url 'wishlist:logout' %}">Logout</a></button> -->
+
+{% endblock content %}
